@@ -1,24 +1,19 @@
-const express = require('express');
+import express  from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import todosRoutes from "./routes/todos.routes.js"
 
-// import express from "express";
 
 // create express app
 const app = express();
 
-// Define routes
-app.get('/', (req, res) => {
-    console.log(req.query, req.headers);
-    res.send("Over and In");
-});
+// Apply middlewares
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(cors());
 
-app.get('/ping', (req, res) => {
-    res.send("PingPong");
-});
-
-app.get('/file', (req, res) => {
-    console.log(__dirname);
-    res.sendFile(__dirname+ "/index.html");
-})
+// Use routes
+app.use(todosRoutes)
 
 // listen for incoming requests
 app.listen(4000, () => {
